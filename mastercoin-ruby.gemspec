@@ -5,14 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = "mastercoin-ruby"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maran"]
   s.date = "2013-09-22"
-  s.description = "Mastercoin library for ruby"
+  s.description = "TODO: longer description of your gem"
   s.email = "maran.hidskes@gmail.com"
-  s.executables = ["simple_send"]
+  s.executables = ["exodus_payment", "mastercoin_transaction", "simple_send", "wallet.rb"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
@@ -25,16 +25,24 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "VERSION",
+    "bin/exodus_payment",
+    "bin/mastercoin_transaction",
     "bin/simple_send",
+    "bin/wallet.rb",
     "lib/mastercoin-ruby.rb",
+    "lib/mastercoin-ruby/bitcoin_wrapper.rb",
+    "lib/mastercoin-ruby/exodus_payment.rb",
     "lib/mastercoin-ruby/simple_send.rb",
+    "lib/mastercoin-ruby/transaction.rb",
+    "lib/mastercoin-ruby/util.rb",
+    "mastercoin-ruby.gemspec",
     "spec/simple_send.rb"
   ]
   s.homepage = "http://github.com/maran/mastercoin-ruby"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.24"
-  s.summary = "Mastercoin library for ruby"
+  s.summary = "TODO: one-line summary of your gem"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

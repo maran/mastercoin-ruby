@@ -7,6 +7,7 @@ module Mastercoin
   autoload :ExodusPayment, 'mastercoin-ruby/exodus_payment'
   autoload :Transaction, 'mastercoin-ruby/transaction'
   autoload :Util, 'mastercoin-ruby/util'
+  autoload :BitcoinWrapper, 'mastercoin-ruby/bitcoin_wrapper'
 
   TRANSACTION_SIMPLE_SEND = "0"
 

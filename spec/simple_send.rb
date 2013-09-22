@@ -15,7 +15,7 @@ describe Mastercoin::SimpleSend do
       simple_send = Mastercoin::SimpleSend.decode_from_address("17vrMab8gQx72eCEaUxJzL4fg5VwEUumJQ")
       simple_send.currency_id.should eq(2)
       simple_send.amount.should eq(50)
-      simple_send.transaction_type.should eq(Mastercoin::TRANSACTION_SIMPLE_SEND)
+      simple_send.transaction_type.to_s.should eq(Mastercoin::TRANSACTION_SIMPLE_SEND)
     end
 
     it "Should backwards compatible with existing transactions" do
@@ -40,7 +40,12 @@ describe Mastercoin::SimpleSend do
 
     it "Should output a valid looking compressed public key" do
       public_key = @simple_send.encode_to_compressed_public_key
-      public_key.should eq("02000000000000000002000000000000003200000000000000000000000000000") 
+      public_key.should eq("020100000000000000020000000000000032000000000000000000000000000000") 
+    end
+
+    it "Should be a valid ECDSA point" do
+      public_key = @simple_send.encode_to_compressed_public_key
+      Mastercoin::Util.valid_ecdsa_point?(public_key).should eq(true)
     end
 
     it "Should always start with 02 for compressed key" do
@@ -53,7 +58,7 @@ describe Mastercoin::SimpleSend do
       simple_send.currency_id.should eq(2)
       simple_send.amount.should eq(50)
       simple_send.transaction_type.should eq(Mastercoin::TRANSACTION_SIMPLE_SEND)
-      simple_send.public_key_sequence.should eq(0)
+      simple_send.public_key_sequence.should eq(1)
     end
   end
 end
