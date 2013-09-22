@@ -42,13 +42,13 @@ The data address:      1CVE9Au1XEm3MsiMuLZpzvZinf4Fgu7aeA
 
 ### Checking how many coins a certain transaction to Exodus bought
 
-> $ exodus_payment from_transaction 4c097244046e1b1fa23edc7ad8efd10babbe7c0caa13925c33097b84dae57af7 --storage="postgres://<username>:<password>@<ip>/<database>"
+> $ exodus_payment from_transaction 4c097244046e1b1fa23edc7ad8efd10babbe7c0caa13925c33097b84dae57af7 --storage="postgres://username:password@ip/database"
 
 > $ Bought 1100.0 Mastercoins and got a 0 Mastercoins extra.
 
 ### Checking total Exodus payment for a given address
 
-> $ exodus_payment from_address 1HRE7U9XNPD8kJBCwm5Q1VAepz25GBXnVk --storage="postgres://<username>:<password>@<ip>/<database>"
+> $ exodus_payment from_address 1HRE7U9XNPD8kJBCwm5Q1VAepz25GBXnVk --storage="postgres://username:password@ip/database"
 
 > $ Bought 1945.780909 Mastercoins and got a 2.05452329 Mastercoins extra.
 
