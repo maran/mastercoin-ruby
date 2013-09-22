@@ -26,8 +26,19 @@ module Mastercoin
 
     def encode_to_compressed_public_key
       raw = "02" + (self.public_key_sequence.to_i.to_s(16).rjust(2, "0") + self.transaction_type.to_i.to_s(16).rjust(8,"0") + self.currency_id.to_i.to_s(16).rjust(8, "0") + self.amount.to_i.to_s(16).rjust(16, "0"))
-      raw.ljust(65,"0")
+      raw = raw.ljust(65,"0")
     end
+    
+    def valid_ecdsa_point?
+      begin
+        Bitcoin::Key.new(nil, self.encode_to_compressed_public_key).addr
+      rescue OpenSSL::PKey::EC::Point::Error
+        return false
+      end
+
+      return true
+    end
+
 
     def encode_to_address
       raw = (self.get_sequence.to_i.to_s(16).rjust(2, "0") + self.transaction_type.to_i.to_s(16).rjust(8,"0") + self.currency_id.to_i.to_s(16).rjust(8, "0") + self.amount.to_i.to_s(16).rjust(16, "0") + "000000")

@@ -15,7 +15,7 @@ describe Mastercoin::SimpleSend do
       simple_send = Mastercoin::SimpleSend.decode_from_address("17vrMab8gQx72eCEaUxJzL4fg5VwEUumJQ")
       simple_send.currency_id.should eq(2)
       simple_send.amount.should eq(50)
-      simple_send.transaction_type.should eq(Mastercoin::TRANSACTION_SIMPLE_SEND)
+      simple_send.transaction_type.to_s.should eq(Mastercoin::TRANSACTION_SIMPLE_SEND)
     end
 
     it "Should backwards compatible with existing transactions" do

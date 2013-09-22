@@ -38,7 +38,7 @@ The Exodus Address:    1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P
 The recipient address: 1CcJFxoEW5PUwesMVxGrq6kAPJ1TJsSVqq
 The data address:      1CVE9Au1XEm3MsiMuLZpzvZinf4Fgu7aeA
 
-*Please note: The following commands will need a connection to an up-to-date bitcoin-ruby node since they need to traverse the network for Mastercoin data.*
+**Please note: The following commands will need a connection to an up-to-date bitcoin-ruby node since they need to traverse the network for Mastercoin data.**
 
 ### Checking how many coins a certain transaction to Exodus bought
 
@@ -57,6 +57,16 @@ The data address:      1CVE9Au1XEm3MsiMuLZpzvZinf4Fgu7aeA
 > $ bin/mastercoin_transaction lookup 4cad027f03f984d7745c077820617318c7553a90ca64be56e78217fc18cf4ea5 --storage="postgres://username:password@ip/database"
 
 > $ Simple send:: Sent 1.3 'Mastercoin' to 1F73UPD5xBKgTSRd8q6QhuncVmDnJAHxYV
+
+**The following commands need a connection to a Bitcoin RPC server with a Mastercoin address.**
+
+### Sending a multisig Simple Send Mastercoin transaction via Bitcoin-QT/D
+
+> $ wallet.rb build_transaction FROM_ADDRESS TO_ADDRESS AMOUNT_OF_TEST_MASTERCOINS --bitcoin_rpc=http://bitcoin:rpcconnection@localhost:8332
+
+> $ wallet.rb build_transaction mgpbsAjKBw4qArWJLxpygPS5dmmTGsEHz3 n3wLS8G69kD96Czw3xbUg17ipsb2W1NGvB 10 --bitcoin_rpc=http://bitcoin:rpcconnection@localhost:8332
+
+These commands require an unlocked wallet; please realise that this exposes private keys. Only use this code if you understand what it does.
 
 ## Contributing to mastercoin-ruby
  
