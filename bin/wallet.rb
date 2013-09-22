@@ -47,8 +47,8 @@ module Mastercoin
         w.walletpassphrase(password, 30) 
 
         puts "Checking funds for address #{from_address}"
-        inputs = w.unspend_for_address(from_address).find{|x| x["amount"].to_f > (0.00006 * 3)}
-        unless inputs.any?
+        inputs = w.unspend_for_address(from_address).find{|x| next if x.nil?; x["amount"].to_f > (0.00006 * 3)}
+        unless inputs
           puts("There are not enough bitcoin available to create a valid looking Mastercoin transaction. We want one output with enough funds for now.")
           exit
         else
@@ -74,9 +74,9 @@ module Mastercoin
         prev_tx = Bitcoin::Protocol::Tx.new([prev_tx].pack("H*"))
 
         total_amount = chosen_input["amount"]
-        fee = 0.0005
+        fee = 0.0001
         tx_amount = 0.00006
-        mastercoin_tx = (3 * tx_amount)
+        mastercoin_tx = (4 * tx_amount)
         change_amount = total_amount - fee - mastercoin_tx
         puts "Setting fees"
 
@@ -126,7 +126,7 @@ module Mastercoin
 
           # Data address
           t.output do |o|
-            o.value tx_amount * 1e8
+            o.value (tx_amount * 1e8) * 2
 
             o.script do |s|
               s.type :multisig
@@ -137,6 +137,7 @@ module Mastercoin
 
         tx = Bitcoin::Protocol::Tx.new( tx.to_payload )
         puts "Need #{tx.calculate_minimum_fee / 1e8} fee-wise"
+        puts "TX Size: #{tx.to_payload.bytesize}"
         valid = tx.verify_input_signature(0, prev_tx) == true
         multisig = Bitcoin::Script.new(tx.out.last.script).is_multisig?
         puts "Does this transaction look valid: #{valid}"

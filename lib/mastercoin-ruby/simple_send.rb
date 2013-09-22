@@ -11,6 +11,7 @@ module Mastercoin
     end
 
     # hardcode the sequence for a public key simple send since it's always fits inside a public key
+    # Please note that we start at 01 - 00 will generate unvalid ECDSA points somehow
     def public_key_sequence
       01
     end
