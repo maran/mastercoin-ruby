@@ -52,6 +52,12 @@ The data address:      1CVE9Au1XEm3MsiMuLZpzvZinf4Fgu7aeA
 
 > $ Bought 1945.780909 Mastercoins and got a 2.05452329 Mastercoins extra.
 
+### Decoding a Mastercoin transaction based on Bitcoin transaction hash
+
+> $ bin/mastercoin_transaction lookup 4cad027f03f984d7745c077820617318c7553a90ca64be56e78217fc18cf4ea5 --storage="postgres://username:password@ip/database"
+
+> $ Simple send:: Sent 1.3 'Mastercoin' to 1F73UPD5xBKgTSRd8q6QhuncVmDnJAHxYV
+
 ## Contributing to mastercoin-ruby
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.

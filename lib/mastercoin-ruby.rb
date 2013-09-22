@@ -2,10 +2,13 @@ require 'bitcoin'
 require 'logger'
 
 module Mastercoin
+  class TransactionNotFoundException < StandardError;end
   autoload :SimpleSend, 'mastercoin-ruby/simple_send'
   autoload :ExodusPayment, 'mastercoin-ruby/exodus_payment'
+  autoload :Transaction, 'mastercoin-ruby/transaction'
+  autoload :Util, 'mastercoin-ruby/util'
 
-  TRANSACTION_SIMPLE_SEND = 0
+  TRANSACTION_SIMPLE_SEND = "0"
 
   TRANSACTION_TYPES = {
     TRANSACTION_SIMPLE_SEND => "Simple transfer",

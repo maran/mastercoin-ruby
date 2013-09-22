@@ -46,14 +46,11 @@ module Mastercoin
 
     def get_sequence(bitcoin_address = nil)
       bitcoin_address ||= self.receiving_address
-      decoded = Bitcoin.decode_base58(bitcoin_address)
+      Mastercoin::Util.get_sequence(bitcoin_address)
+    end
 
-      seq = decoded[2..3].to_i(16) - 1
-      if seq > 255
-        seq -= 255
-      end
-
-      return seq
+    def looks_like_mastercoin?
+      Mastercoin::TRANSACTION_TYPES.keys.include?(self.transaction_type.to_s) && Mastercoin::CURRENCY_IDS.keys.include?(self.currency_id.to_s)
     end
 
     def to_s

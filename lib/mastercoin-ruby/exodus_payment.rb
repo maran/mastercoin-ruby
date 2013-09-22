@@ -1,6 +1,5 @@
 module Mastercoin
   class ExodusPayment
-    class TransactionNotFoundException < StandardError;end
 
     attr_accessor :coins_bought, :bonus_bought, :address, :tx, :time_included
 

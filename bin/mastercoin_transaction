@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+$:.unshift( File.expand_path("../../lib", __FILE__) )
+require 'mastercoin-ruby'
+require 'thor'
+
+module Mastercoin
+  module Cli
+    class Transactions < Thor
+      class_option :storage, required: true
+
+      desc "lookup <tx_hash>", "Decodes the Mastercoin data in a given Bitcoin transaction hash"
+      def lookup(hash) 
+        puts "Looking up tx with hash #{hash}"
+        Mastercoin.set_storage(options[:storage])
+        puts Mastercoin::Transaction.new(hash)
+      end
+    end
+  end
+end
+
+Mastercoin::Cli::Transactions.start(ARGV)
