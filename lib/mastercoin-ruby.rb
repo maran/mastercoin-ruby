@@ -3,6 +3,7 @@ require 'logger'
 
 module Mastercoin
   autoload :SimpleSend, 'mastercoin-ruby/simple_send'
+  autoload :ExodusPayment, 'mastercoin-ruby/exodus_payment'
 
   TRANSACTION_SIMPLE_SEND = 0
 
@@ -23,6 +24,10 @@ module Mastercoin
     "2" => "Test Mastercoin"
   }
 
+  EXODUS_ADDRESS = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P"
+  END_TIME = Time.new(2013,9,01,00,00,00, "+00:00")
+  END_BLOCK = 255365
+
   def self.set_storage(storage_string)
     @storage_string = storage_string
   end
@@ -33,13 +38,13 @@ module Mastercoin
     return @@storage
   end
 
-  def self.init_logger(level = Logger::DEBUG)
+  def self.init_logger(level = Logger::INFO)
     @@log ||= Logger.new(STDOUT)
     @@log.level = level
     @@log
   end
 
   def self.log
-    @@log ||= Logger.new(STDOUT)
+    @@log ||= Mastercoin.init_logger
   end
 end

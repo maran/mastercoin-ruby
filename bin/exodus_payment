@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+$:.unshift( File.expand_path("../../lib", __FILE__) )
+require 'pp'
+require 'mastercoin-ruby'
+require 'thor'
+
+module Mastercoin
+  module Cli
+    class ExodusPayment < Thor
+      class_option :storage, required: true
+
+      desc "from_transaction <tx_hash>", "Calculates coins bought via Exodus payment"
+      def from_transaction(hash) 
+        puts "Looking up tx with hash #{hash}"
+        Mastercoin.set_storage(options[:storage])
+        puts Mastercoin::ExodusPayment.from_transaction(hash)
+      end
+
+      desc "from_address <bitcoin_address>", "Calculates total amount of mastercoins bought"
+      def from_address(address)
+        Mastercoin.set_storage(options[:storage])
+        puts Mastercoin::ExodusPayment.from_address(address)
+      end
+    end
+  end
+end
+
+Mastercoin::Cli::ExodusPayment.start(ARGV)
