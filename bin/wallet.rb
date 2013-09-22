@@ -74,7 +74,7 @@ module Mastercoin
         prev_tx = Bitcoin::Protocol::Tx.new([prev_tx].pack("H*"))
 
         total_amount = chosen_input["amount"]
-        fee = 0.0002
+        fee = 0.0005
         tx_amount = 0.00006
         mastercoin_tx = (3 * tx_amount)
         change_amount = total_amount - fee - mastercoin_tx
@@ -136,6 +136,7 @@ module Mastercoin
         end
 
         tx = Bitcoin::Protocol::Tx.new( tx.to_payload )
+        puts "Need #{tx.calculate_minimum_fee / 1e8} fee-wise"
         valid = tx.verify_input_signature(0, prev_tx) == true
         multisig = Bitcoin::Script.new(tx.out.last.script).is_multisig?
         puts "Does this transaction look valid: #{valid}"
