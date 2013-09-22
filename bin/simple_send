@@ -16,6 +16,23 @@ module Mastercoin
       def decode_from_address(address)
         puts Mastercoin::SimpleSend.decode_from_address(address).to_s
       end
+      
+      desc "encode_to_public_key <options>", "Encodes the parameters into a public key"
+      option :amount, required: true
+      option :currency_id, required: true, type: :numeric
+      def encode_to_public_key
+        simple_send = Mastercoin::SimpleSend.new(currency_id: options[:currency_id], amount: options[:amount])
+        puts simple_send.encode_to_compressed_public_key
+      end
+
+      desc "encode_to_address <options>", "Encodes the parameters into a bitcoin address"
+      option :amount, required: true
+      option :currency_id, required: true, type: :numeric
+      option :receiving_address, required: true
+      def encode_to_address
+        simple_send = Mastercoin::SimpleSend.new(currency_id: options[:currency_id], amount: options[:amount], receiving_address: options[:receiving_address])
+        puts simple_send.encode_to_address
+      end
     end
   end
 end
