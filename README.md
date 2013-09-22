@@ -11,16 +11,19 @@ Mastercoin-ruby is a ruby library for Mastercoin.
 
 ### Decoding a address
 > $ simple_send decode_from_address 1CVE9Au1XEm3MkYxeAhUDVqWvaHrP98iUt
+
 > $ SimpleSend transaction for 100.00000000 Mastercoin.
 
 ### Decoding a public key
 
 > $ simple_send decode_from_public_key "02000000000000000002000000000000000100000000000000000000000000000" 
+
 > $ SimpleSend transaction for 0.00000001 Test Mastercoin.
 
 ### Encoding to address
 
 > $ simple_send encode_to_address --amount=100000000 --currency-id=2 --receiving_address=1CcJFxoEW5PUwesMVxGrq6kAPJ1TJsSVqq 
+
 > $ 1CVE9Au1XEm3MsiMuLZpzvZinf4Fgu7aeA
 
 ## Contributing to mastercoin-ruby
