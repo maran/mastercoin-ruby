@@ -6,6 +6,7 @@ Mastercoin-ruby is a ruby library for Mastercoin.
 
 * Simple Send encoding to public keys
 * Simple Send encoding to Bitcoin addresses
+* Advise on creating a Address based transaction
 
 ## Example usage
 
@@ -25,6 +26,16 @@ Mastercoin-ruby is a ruby library for Mastercoin.
 > $ simple_send encode_to_address --amount=100000000 --currency-id=2 --receiving_address=1CcJFxoEW5PUwesMVxGrq6kAPJ1TJsSVqq 
 
 > $ 1CVE9Au1XEm3MsiMuLZpzvZinf4Fgu7aeA
+
+### Advise for Simple Send
+
+> $ simple_send advise --amount=100000000 --currency-id=2 --receiving_address=1CcJFxoEW5PUwesMVxGrq6kAPJ1TJsSVqq 
+
+> $ Step 1: Send all funds in your wallet to the address which owns the MasterCoins (the following sends must come from that address)
+Step 2: Send exactly 0.00006 BTC from your address to each of the following 3 addresses in one transaction:
+The Exodus Address:    1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P
+The recipient address: 1CcJFxoEW5PUwesMVxGrq6kAPJ1TJsSVqq
+The data address:      1CVE9Au1XEm3MsiMuLZpzvZinf4Fgu7aeA
 
 ## Contributing to mastercoin-ruby
  

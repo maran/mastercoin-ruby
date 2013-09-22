@@ -33,6 +33,19 @@ module Mastercoin
         simple_send = Mastercoin::SimpleSend.new(currency_id: options[:currency_id], amount: options[:amount], receiving_address: options[:receiving_address])
         puts simple_send.encode_to_address
       end
+
+      desc "advise <options>", "Gives advice on how to create a simple send Mastercoin address transaction"
+      option :amount, required: true
+      option :currency_id, required: true, type: :numeric
+      option :receiving_address, required: true
+      def advise
+        simple_send = Mastercoin::SimpleSend.new(currency_id: options[:currency_id], amount: options[:amount], receiving_address: options[:receiving_address])
+        puts "Step 1: Send all funds in your wallet to the address which owns the MasterCoins (the following sends must come from that address)
+Step 2: Send exactly 0.00006 BTC from your address to each of the following 3 addresses in one transaction:
+The Exodus Address:    1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P
+The recipient address: #{options[:receiving_address]}
+The data address:      #{simple_send.encode_to_address}"
+      end
     end
   end
 end
