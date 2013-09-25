@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maran"]
-  s.date = "2013-09-22"
-  s.description = "TODO: longer description of your gem"
+  s.date = "2013-09-25"
+  s.description = "Basic implementation of the Mastercoin protocol."
   s.email = "maran.hidskes@gmail.com"
   s.executables = ["exodus_payment", "mastercoin_transaction", "simple_send", "wallet.rb"]
   s.extra_rdoc_files = [
@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.24"
-  s.summary = "TODO: one-line summary of your gem"
+  s.summary = "Ruby library for the Mastercoin protocol"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

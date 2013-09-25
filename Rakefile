@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "mastercoin-ruby"
   gem.homepage = "http://github.com/maran/mastercoin-ruby"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Ruby library for the Mastercoin protocol}
+  gem.description = %Q{Basic implementation of the Mastercoin protocol.}
   gem.email = "maran.hidskes@gmail.com"
   gem.authors = ["Maran"]
   # dependencies defined in Gemfile
