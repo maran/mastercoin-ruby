@@ -57,6 +57,9 @@ module Mastercoin
         self.btc_tx.outputs.each do |output|
           address = output.get_address
           sequence = Mastercoin::Util.get_sequence(address)
+
+          raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.")
+
           if self.data_addresses[0].sequence.to_s == sequence.to_s
             self.target_address = address
           end
