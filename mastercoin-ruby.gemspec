@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "mastercoin-ruby"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maran"]
-  s.date = "2013-09-22"
+  s.date = "2013-10-07"
   s.description = "TODO: longer description of your gem"
   s.email = "maran.hidskes@gmail.com"
   s.executables = ["exodus_payment", "mastercoin_transaction", "simple_send", "wallet.rb"]
