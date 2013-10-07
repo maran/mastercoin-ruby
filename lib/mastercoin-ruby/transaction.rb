@@ -16,11 +16,11 @@ module Mastercoin
       raise TransactionNotFoundException.new("Transaction #{tx_hash} could not be found. Is your blockchain up to date?") if self.btc_tx.nil?
 
       unless self.has_genesis_as_output?
-        raise NoMastercoinTransaction.new("This transaction does not contain a txout to the genesis address, invalid.")
+        raise NoMastercoinTransactionException.new("This transaction does not contain a txout to the genesis address, invalid.")
       end
 
       unless self.has_three_outputs?
-        raise NoMastercoinTransaction.new("This transaction does not contain three outputs, invalid.")
+        raise NoMastercoinTransactionException.new("This transaction does not contain three outputs, invalid.")
       end
  
       if self.btc_tx.outputs.collect{|x| x.script.is_multisig?}.include?(true)
@@ -57,6 +57,9 @@ module Mastercoin
         self.btc_tx.outputs.each do |output|
           address = output.get_address
           sequence = Mastercoin::Util.get_sequence(address)
+
+          raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.")
+
           if self.data_addresses[0].sequence.to_s == sequence.to_s
             self.target_address = address
           end
