@@ -58,13 +58,13 @@ module Mastercoin
           address = output.get_address
           sequence = Mastercoin::Util.get_sequence(address)
 
-          raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.")
-
           if self.data_addresses[0].sequence.to_s == sequence.to_s
             self.target_address = address
           end
         end
       end
+
+      raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.") unless self.data_addresses.any?
 
       self.data_addresses.sort!{|x, y| x.sequence.to_i <=> y.sequence.to_i }
 
