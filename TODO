@@ -1,0 +1,4 @@
+If all outputs are the same, then look at sequence numbers:
+If there is a broken sequence (i.e. 3,4,8), then the odd-man-out is the change address (8 in this example)
+If there is an ambiguous sequence (i.e. 3,4,4), then the transaction is invalid!
+If there is a perfect sequence (i.e. 3,4,5), then the transaction is invalid!

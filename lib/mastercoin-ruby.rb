@@ -1,21 +1,25 @@
 require 'bitcoin'
 require 'logger'
+require 'active_support/core_ext'
 
 module Mastercoin
   class TransactionNotFoundException < StandardError;end
   autoload :SimpleSend, 'mastercoin-ruby/simple_send'
+  autoload :SellingOffer, 'mastercoin-ruby/selling_offer'
   autoload :ExodusPayment, 'mastercoin-ruby/exodus_payment'
   autoload :Transaction, 'mastercoin-ruby/transaction'
+  autoload :Message, 'mastercoin-ruby/message'
   autoload :Util, 'mastercoin-ruby/util'
   autoload :BitcoinWrapper, 'mastercoin-ruby/bitcoin_wrapper'
 
   TRANSACTION_SIMPLE_SEND = "0"
+  TRANSACTION_SELL_FOR_BITCOIN = 20
 
   TRANSACTION_TYPES = {
     TRANSACTION_SIMPLE_SEND => "Simple transfer",
     "10" => "Mark saving",
     "11" => "Mark compromised",
-    "20" => "Currency trade offer bitcoins",
+    TRANSACTION_SELL_FOR_BITCOIN => "Currency trade offer bitcoins",
     "21" => "Currency trade offer master-coin derived",
     "22" => "Currency trade offer accept",
     "30" => "Register data-stream",
