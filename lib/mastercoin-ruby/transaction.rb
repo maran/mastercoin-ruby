@@ -5,13 +5,14 @@ module Mastercoin
     attr_accessor :btc_tx
     attr_accessor :transaction_type, :currency_id, :amount
     attr_accessor :source_address
-    attr_accessor :data_addresses, :rejected_outputs, :target_address, :multisig
+    attr_accessor :data_addresses, :rejected_outputs, :target_address, :multisig, :sending_address
 
     def initialize(tx_hash)
       @store = Mastercoin.storage
       self.data_addresses = []
       self.rejected_outputs = [] 
       self.btc_tx = @store.get_tx(tx_hash)
+      self.sending_address = btc_tx.inputs.first.get_prev_out.get_address
 
       raise TransactionNotFoundException.new("Transaction #{tx_hash} could not be found. Is your blockchain up to date?") if self.btc_tx.nil?
 
@@ -38,7 +39,7 @@ module Mastercoin
           elsif output.script.is_multisig?
             keys = output.script.get_multisig_pubkeys.collect{|x| x.unpack("H*")[0]}
             keys.each do |key| 
-              self.data_addresses << Mastercoin::SimpleSend.decode_from_compressed_public_key(key) if Mastercoin::SimpleSend.decode_from_compressed_public_key(key).looks_like_mastercoin?
+              self.data_addresses << Mastercoin::SimpleSend.decode_from_compressed_public_key(key, self.sending_address) if Mastercoin::SimpleSend.decode_from_compressed_public_key(key, self.sending_address).looks_like_mastercoin?
             end
           else
             #TODO Change this not really too trust worthy
@@ -87,7 +88,7 @@ module Mastercoin
     end
 
     def to_s
-      if self.transaction_type.to_s == "0"
+      if self.transaction_type.to_i.to_s == "0"
         "Simple send:: Sent #{self.amount / 1e8} '#{Mastercoin::CURRENCY_IDS[self.currency_id.to_s]}' to #{self.target_address}"
       else
         "Unknown transaction: #{self.transaction_type}"

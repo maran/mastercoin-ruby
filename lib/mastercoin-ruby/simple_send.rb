@@ -52,7 +52,7 @@ module Mastercoin
     end
 
     def looks_like_mastercoin?
-      Mastercoin::TRANSACTION_TYPES.keys.include?(self.transaction_type.to_s) && Mastercoin::CURRENCY_IDS.keys.include?(self.currency_id.to_s)
+      Mastercoin::TRANSACTION_TYPES.keys.include?(self.transaction_type.to_i.to_s) && Mastercoin::CURRENCY_IDS.keys.include?(self.currency_id.to_s)
     end
 
     def to_s
