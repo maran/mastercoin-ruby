@@ -8,13 +8,20 @@ module Mastercoin
       return key[2..-1]
     end
 
+
     def self.sort_and_strip_keys(keys)
       Util.sort_keys(keys).collect{|key| Util.strip_key(key)}
     end
 
+    def self.xor_pack_unpack_strings(s1, s2)
+      s1_bytes = [s1].pack("H*").unpack("C*")
+      s2_bytes = [s2].pack("H*").unpack("C*")
+      s1_bytes.zip(s2_bytes).map { |a, b| (a ^ b).to_s(16).rjust(2,"0") }.join
+    end
+
     def self.multiple_hash(target, times = 1)
       times -= 1
-      new_target = Digest::SHA256.hexdigest(target)[0..61]
+      new_target = Digest::SHA256.hexdigest(target).upcase
       if times > 0 
         return multiple_hash(new_target)
       end

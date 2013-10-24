@@ -40,7 +40,7 @@ describe Mastercoin::SimpleSend do
 
     it "Should output a valid looking compressed public key" do
       public_key = @simple_send.encode_to_compressed_public_key(@simple_send.receiving_address)
-      public_key[0..-3].should eq("023d1de8362fca649b99f66e1c98f409e0d17edfcffc0b9082e1bc0330dc5798") 
+      public_key[0..-3].should eq("023d1de8362fca649b99f66e1c98f409e0d17edfcffc0b9082e1bc0330dc5798")
     end
 
     it "Should be a valid ECDSA point" do
@@ -54,7 +54,7 @@ describe Mastercoin::SimpleSend do
     end
 
     it "Should be able to parse a given public key" do
-      simple_send = Mastercoin::SimpleSend.decode_from_compressed_public_key("023d1de8362fca649b99f66e1c98f409e0d17edfcffc0b9082e1bc0330dc5798a0", @simple_send.receiving_address)
+      simple_send = Mastercoin::SimpleSend.decode_from_compressed_public_key("023d1de8362fca649b99f66e1c98f409e0d17edfcffc0b9082e1bc0330dc579811", @simple_send.receiving_address)
       simple_send.amount.should eq(50)
       simple_send.currency_id.should eq(2)
       simple_send.transaction_type.to_i.to_s.should eq(Mastercoin::TRANSACTION_SIMPLE_SEND)

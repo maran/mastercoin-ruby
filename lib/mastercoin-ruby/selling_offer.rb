@@ -16,7 +16,7 @@ module Mastercoin
 
     def self.decode_key_to_data(keys)
       key = Mastercoin::Util.sort_and_strip_keys(keys).join
-      puts "HERE: #{key}"
+      
       raise CannotDecodeSellingOfferException.new("Need an array of two public keys in order to decode Selling Offer") unless keys.is_a?(Array) || keys.count != 2
       offer = SellingOffer.new
       offer.transaction_type = key[0..7].to_i(16)

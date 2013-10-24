@@ -15,7 +15,7 @@ describe Mastercoin::SellingOffer do
     it "Should encode valid public keys" do
       keys = @selling_offer.encode_to_compressed_public_key("1J2svn2GxYx9LPrpCLFikmzn9kkrXBrk8B")
       keys.first[0..-3].should eq("02d52c390e46f1110410078a9db14d124206924666fb10a5e8dbf9cc2e2ecde3")
-      keys.last[0..-3].should eq("026c17b960d1aa810b6f736760a03166dec0ecc617de661915e06981d5d88f28")
+      keys.last[0..-3].should eq("02020f44668806819e67a030e82a6af98376dac1065d7fe533daf251d43aa836")
       Mastercoin::Util.valid_ecdsa_point?(keys.first).should eq(true)
       Mastercoin::Util.valid_ecdsa_point?(keys.last).should eq(true)
     end

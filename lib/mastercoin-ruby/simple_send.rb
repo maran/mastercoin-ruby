@@ -18,7 +18,6 @@ module Mastercoin
 
     def self.decode_key_to_data(public_key)
       simple_send = SimpleSend.new
-      puts "Decoding: #{public_key}"
       simple_send.transaction_type = public_key[2..9]#Mastercoin::TRANSACTION_SIMPLE_SEND
       simple_send.currency_id = public_key[10..17].to_i(16)
       simple_send.amount = public_key[18..33].to_i(16)
