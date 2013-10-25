@@ -13,6 +13,7 @@ module Mastercoin
       self.rejected_outputs = [] 
       self.btc_tx = @store.get_tx(tx_hash)
       self.sending_address = btc_tx.inputs.first.get_prev_out.get_address
+      exodus_value = nil
 
       raise TransactionNotFoundException.new("Transaction #{tx_hash} could not be found. Is your blockchain up to date?") if self.btc_tx.nil?
 
@@ -35,15 +36,20 @@ module Mastercoin
       if multisig
         self.btc_tx.outputs.each do |output|
           if output.get_address == Mastercoin::EXODUS_ADDRESS
-            # Do nothing yet; this is simply the exodus address
-          elsif output.script.is_multisig?
+            exodus_value = output.value
+          end
+        end
+
+        self.btc_tx.outputs.each do |output|
+          if output.script.is_multisig?
             keys = output.script.get_multisig_pubkeys.collect{|x| x.unpack("H*")[0]}
             keys.each do |key| 
               self.data_addresses << Mastercoin::SimpleSend.decode_from_compressed_public_key(key, self.sending_address) if Mastercoin::SimpleSend.decode_from_compressed_public_key(key, self.sending_address).looks_like_mastercoin?
             end
+          elsif output.get_address == Mastercoin::EXODUS_ADDRESS
+            # Do nothing for now
           else
-            #TODO Change this not really too trust worthy
-            self.target_address = output.get_address if output.value == 0.00006 * 1e8
+            self.target_address = output.get_address if output.value == exodus_value
           end
         end
       else
