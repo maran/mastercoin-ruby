@@ -12,6 +12,15 @@ describe Mastercoin::SellingOffer do
       keys.count.should eq(2)
     end
 
+    it "Should be backward compatible with existing transactions in the blockchain" do
+      selling = Mastercoin::SellingOffer.decode_from_compressed_public_key(["0226cb0561011d9045f6371cb09086ba7148d9942328bcf1def4cb6edb35ccdd7b", "022ead95dab02d826df0af54e92a352945c9892df6cd77f1a7c390fc82c8b0ed5c"], "13NRX88EZbS5q81x6XFrTECzrciPREo821")
+      selling.amount.should be(1e8.to_i)
+      selling.currency_id.should be(2)
+      selling.time_limit.should be(12)
+      selling.bitcoin_amount.should be(100)
+      selling.transaction_fee.should be(100000)
+    end
+
     it "Should encode valid public keys" do
       keys = @selling_offer.encode_to_compressed_public_key("1J2svn2GxYx9LPrpCLFikmzn9kkrXBrk8B")
       keys.first[0..-3].should eq("02d52c390e46f1110410078a9db14d124206924666fb10a5e8dbf9cc2e2ecde3")

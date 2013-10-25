@@ -15,9 +15,10 @@ module Mastercoin
     end
 
     def self.decode_key_to_data(keys)
+      raise CannotDecodeSellingOfferException.new("Need an array of two public keys in order to decode Selling Offer") unless keys.is_a?(Array) || keys.count != 2
+
       key = Mastercoin::Util.sort_and_strip_keys(keys).join
       
-      raise CannotDecodeSellingOfferException.new("Need an array of two public keys in order to decode Selling Offer") unless keys.is_a?(Array) || keys.count != 2
       offer = SellingOffer.new
       offer.transaction_type = key[0..7].to_i(16)
       offer.currency_id = key[8..15].to_i(16)
@@ -35,6 +36,10 @@ module Mastercoin
       keys.each_with_index.collect do |key, index|
         "#{(index + 1).to_s(16).rjust(2,"0")}#{key}"
       end
+    end
+
+    def explain
+      "Selling Offer of #{self.amount / 1e8} #{Mastercoin::CURRENCY_IDS[self.currency_id.to_s]} for #{self.bitcoin_amount / 1e8} Bitcoins. Time limit #{self.time_limit}. BTC Fee #{self.transaction_fee}"
     end
   end
 end

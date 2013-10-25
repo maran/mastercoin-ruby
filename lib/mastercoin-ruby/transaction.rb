@@ -43,15 +43,17 @@ module Mastercoin
         self.btc_tx.outputs.each do |output|
           if output.script.is_multisig?
             keys = output.script.get_multisig_pubkeys.collect{|x| x.unpack("H*")[0]}
-            keys.each do |key| 
-              self.data_addresses << Mastercoin::SimpleSend.decode_from_compressed_public_key(key, self.sending_address) if Mastercoin::SimpleSend.decode_from_compressed_public_key(key, self.sending_address).looks_like_mastercoin?
-            end
+            @key_data = Mastercoin::Message.probe_and_read(keys, self.sending_address)
           elsif output.get_address == Mastercoin::EXODUS_ADDRESS
             # Do nothing for now
           else
             self.target_address = output.get_address if output.value == exodus_value
           end
         end
+
+        puts @key_data.explain
+        exit
+
       else
         self.btc_tx.outputs.each do |output|
           if output.get_address == Mastercoin::EXODUS_ADDRESS
@@ -96,6 +98,8 @@ module Mastercoin
     def to_s
       if self.transaction_type.to_i.to_s == "0"
         "Simple send:: Sent #{self.amount / 1e8} '#{Mastercoin::CURRENCY_IDS[self.currency_id.to_s]}' to #{self.target_address}"
+      elsif self.transaction_type.to_i.to_s == "20"
+        "Selling offer:: Sent #{self.amount / 1e8} '#{Mastercoin::CURRENCY_IDS[self.currency_id.to_s]}' to #{self.target_address}"
       else
         "Unknown transaction: #{self.transaction_type}"
       end
