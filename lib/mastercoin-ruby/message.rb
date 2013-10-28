@@ -1,34 +1,43 @@
 module Mastercoin
   class Message
     # Try to decode the keys and grab the keys that have a logical sequence number
+    
+    # TODO Build it so that we bruteforce a couple of hashing to see if we can get the right amount
+    # Dont assume the first key is the compressed key
     def self.probe(keys, xor_target)
-      Message.decode(keys, xor_target).find_all do |key|
-        (1..keys.count).collect{|x| x.to_s.rjust(2,"0")}.to_a.include?(key[0..1])
+      decoded_keys = Message.decode(keys[1..-1], xor_target, return_as: :array)
+      decoded_keys.find_all do |key|
+        (1..keys.count).collect{|x| x.to_s.rjust(2,"0")}.to_a.include?(key[1][0..1])
       end
     end
 
     def self.probe_and_read(keys, xor_target)
       result = Message.probe(keys, xor_target)
-      transaction_type = result.join[2..9].to_i(16)
+      transaction_type = (result[0][1] + result[1][1])[2..9].to_i(16)
     
       if transaction_type == Mastercoin::TRANSACTION_SELL_FOR_BITCOIN
         puts "Found Selling Offer"
-        Mastercoin::SellingOffer.decode_from_compressed_public_key(keys, xor_target)
+        Mastercoin::SellingOffer.decode_from_compressed_public_key([result[0][0], result[1][0]], xor_target)
       elsif transaction_type.to_s == Mastercoin::TRANSACTION_SIMPLE_SEND.to_s
         puts "Found Simple Send"
         Mastercoin::SimpleSend.decode_from_compressed_public_key(keys, xor_target)
       end
     end
 
-    def self.decode(keys, xor_target)
+    def self.decode(keys, xor_target, options = {})
       if keys.is_a?(Array)
         i = 1
         key_data = keys.collect do |key|
           impose = Mastercoin::Util.multiple_hash(xor_target, i)[0..-3]
           i += 1
-          key = key.each_char.to_a.drop(2).reverse.drop(2).reverse.join
-          # We are losing a char here, no idea why, just add it in for good measure
-          Mastercoin::Util.xor_pack_unpack_strings(impose, key)
+          mangled_key = key.each_char.to_a.drop(2).reverse.drop(2).reverse.join
+          if options[:return_as] == :hash
+            {key => Mastercoin::Util.xor_pack_unpack_strings(impose, mangled_key)}
+          elsif options[:return_as] == :array
+            [key, Mastercoin::Util.xor_pack_unpack_strings(impose, mangled_key)]
+          else
+            Mastercoin::Util.xor_pack_unpack_strings(impose, mangled_key)
+          end
         end
       else
         impose = Mastercoin::Util.multiple_hash(xor_target, 1)[0..-3]

@@ -7,6 +7,8 @@ module Mastercoin
     attr_accessor :source_address
     attr_accessor :data_addresses, :rejected_outputs, :target_address, :multisig, :sending_address
 
+    attr_accessor :key_data
+
     def initialize(tx_hash)
       @store = Mastercoin.storage
       self.data_addresses = []
@@ -43,17 +45,13 @@ module Mastercoin
         self.btc_tx.outputs.each do |output|
           if output.script.is_multisig?
             keys = output.script.get_multisig_pubkeys.collect{|x| x.unpack("H*")[0]}
-            @key_data = Mastercoin::Message.probe_and_read(keys, self.sending_address)
+            self.key_data = Mastercoin::Message.probe_and_read(keys, self.sending_address)
           elsif output.get_address == Mastercoin::EXODUS_ADDRESS
             # Do nothing for now
           else
             self.target_address = output.get_address if output.value == exodus_value
           end
         end
-
-        puts @key_data.explain
-        exit
-
       else
         self.btc_tx.outputs.each do |output|
           if output.get_address == Mastercoin::EXODUS_ADDRESS
@@ -71,13 +69,11 @@ module Mastercoin
             self.target_address = address
           end
         end
+        self.data_addresses.sort!{|x, y| x.sequence.to_i <=> y.sequence.to_i }
       end
 
-      raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.") unless self.data_addresses.any?
-
-      self.data_addresses.sort!{|x, y| x.sequence.to_i <=> y.sequence.to_i }
-
       self.analyze_addresses!
+      raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.") unless self.data_addresses.any?
     end
 
     def analyze_addresses!

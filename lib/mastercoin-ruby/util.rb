@@ -23,7 +23,7 @@ module Mastercoin
       times -= 1
       new_target = Digest::SHA256.hexdigest(target).upcase
       if times > 0 
-        return multiple_hash(new_target)
+        return multiple_hash(new_target, times)
       end
 
       return new_target
