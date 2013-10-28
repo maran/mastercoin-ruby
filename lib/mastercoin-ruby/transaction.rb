@@ -4,10 +4,9 @@ module Mastercoin
 
     attr_accessor :btc_tx
     attr_accessor :transaction_type, :currency_id, :amount
-    attr_accessor :source_address
     attr_accessor :data_addresses, :rejected_outputs, :target_address, :multisig, :sending_address
 
-    attr_accessor :key_data
+    attr_accessor :data
 
     def initialize(tx_hash)
       @store = Mastercoin.storage
@@ -15,6 +14,8 @@ module Mastercoin
       self.rejected_outputs = [] 
       self.btc_tx = @store.get_tx(tx_hash)
       self.sending_address = btc_tx.inputs.first.get_prev_out.get_address
+      self.source_address = Mastercoin::ExodusPayment.highest_output_for_tx(self.btc_tx)
+
       exodus_value = nil
 
       raise TransactionNotFoundException.new("Transaction #{tx_hash} could not be found. Is your blockchain up to date?") if self.btc_tx.nil?
@@ -33,8 +34,6 @@ module Mastercoin
         self.multisig = false
       end
 
-      self.source_address = Mastercoin::ExodusPayment.highest_output_for_tx(self.btc_tx)
-
       if multisig
         self.btc_tx.outputs.each do |output|
           if output.get_address == Mastercoin::EXODUS_ADDRESS
@@ -45,7 +44,7 @@ module Mastercoin
         self.btc_tx.outputs.each do |output|
           if output.script.is_multisig?
             keys = output.script.get_multisig_pubkeys.collect{|x| x.unpack("H*")[0]}
-            self.key_data = Mastercoin::Message.probe_and_read(keys, self.sending_address)
+            self.data = Mastercoin::Message.probe_and_read(keys, self.sending_address)
           elsif output.get_address == Mastercoin::EXODUS_ADDRESS
             # Do nothing for now
           else
@@ -57,7 +56,7 @@ module Mastercoin
           if output.get_address == Mastercoin::EXODUS_ADDRESS
             # Do nothing yet; this is simply the exodus address
           elsif Mastercoin::SimpleSend.decode_from_address(output.get_address).looks_like_mastercoin? # This looks like a data packet
-            self.data_addresses << Mastercoin::SimpleSend.decode_from_address(output.get_address)
+            self.data = Mastercoin::SimpleSend.decode_from_address(output.get_address)
           end
         end
 
@@ -65,22 +64,12 @@ module Mastercoin
           address = output.get_address
           sequence = Mastercoin::Util.get_sequence(address)
 
-          if self.data_addresses[0].sequence.to_s == sequence.to_s
+          if self.data.sequence.to_s == sequence.to_s
             self.target_address = address
           end
         end
-        self.data_addresses.sort!{|x, y| x.sequence.to_i <=> y.sequence.to_i }
       end
-
-      self.analyze_addresses!
-      raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.") unless self.data_addresses.any?
-    end
-
-    def analyze_addresses!
-      address = self.data_addresses[0]
-      self.transaction_type = address.transaction_type
-      self.currency_id = address.currency_id
-      self.amount = address.amount
+      raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.") unless self.data
     end
 
     def has_three_outputs?
@@ -92,13 +81,7 @@ module Mastercoin
     end
 
     def to_s
-      if self.transaction_type.to_i.to_s == "0"
-        "Simple send:: Sent #{self.amount / 1e8} '#{Mastercoin::CURRENCY_IDS[self.currency_id.to_s]}' to #{self.target_address}"
-      elsif self.transaction_type.to_i.to_s == "20"
-        "Selling offer:: Sent #{self.amount / 1e8} '#{Mastercoin::CURRENCY_IDS[self.currency_id.to_s]}' to #{self.target_address}"
-      else
-        "Unknown transaction: #{self.transaction_type}"
-      end
+      self.data.explain
     end
   end
 end

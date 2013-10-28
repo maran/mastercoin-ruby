@@ -16,10 +16,8 @@ module Mastercoin
       transaction_type = (result[0][1] + result[1][1])[2..9].to_i(16)
     
       if transaction_type == Mastercoin::TRANSACTION_SELL_FOR_BITCOIN
-        puts "Found Selling Offer"
         Mastercoin::SellingOffer.decode_from_compressed_public_key([result[0][0], result[1][0]], xor_target)
       elsif transaction_type.to_s == Mastercoin::TRANSACTION_SIMPLE_SEND.to_s
-        puts "Found Simple Send"
         Mastercoin::SimpleSend.decode_from_compressed_public_key(keys, xor_target)
       end
     end

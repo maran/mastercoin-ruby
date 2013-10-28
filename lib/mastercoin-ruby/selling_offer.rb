@@ -2,6 +2,7 @@ module Mastercoin
   class SellingOffer < Mastercoin::Message
     class CannotDecodeSellingOfferException < StandardError;end
 
+    # 14015bd586c0c7a28979ca294b114441f23bfc97be17cd6077b9e12e2709fec3
     attr_accessor :transaction_type, :currency_id, :amount, :bitcoin_amount, :time_limit, :transaction_fee
 
     def initialize(options = {})
