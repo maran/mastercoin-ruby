@@ -5,17 +5,18 @@
 
 Gem::Specification.new do |s|
   s.name = "mastercoin-ruby"
-  s.version = "0.0.4"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maran"]
-  s.date = "2013-10-11"
+  s.date = "2013-10-28"
   s.description = "Basic implementation of the Mastercoin protocol."
   s.email = "maran.hidskes@gmail.com"
-  s.executables = ["exodus_payment", "mastercoin_transaction", "simple_send", "wallet.rb"]
+  s.executables = ["console", "exodus_payment", "mastercoin_transaction", "simple_send", "wallet.rb"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.md"
+    "README.md",
+    "TODO"
   ]
   s.files = [
     ".document",
@@ -24,7 +25,9 @@ Gem::Specification.new do |s|
     "LICENSE.txt",
     "README.md",
     "Rakefile",
+    "TODO",
     "VERSION",
+    "bin/console",
     "bin/exodus_payment",
     "bin/mastercoin_transaction",
     "bin/simple_send",
@@ -32,11 +35,14 @@ Gem::Specification.new do |s|
     "lib/mastercoin-ruby.rb",
     "lib/mastercoin-ruby/bitcoin_wrapper.rb",
     "lib/mastercoin-ruby/exodus_payment.rb",
+    "lib/mastercoin-ruby/message.rb",
+    "lib/mastercoin-ruby/selling_offer.rb",
     "lib/mastercoin-ruby/simple_send.rb",
     "lib/mastercoin-ruby/transaction.rb",
     "lib/mastercoin-ruby/util.rb",
     "mastercoin-ruby.gemspec",
-    "spec/simple_send.rb"
+    "spec/selling_offer_spec.rb",
+    "spec/simple_send_spec.rb"
   ]
   s.homepage = "http://github.com/maran/mastercoin-ruby"
   s.licenses = ["MIT"]
@@ -51,6 +57,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
       s.add_runtime_dependency(%q<sequel>, ["~> 4.1.1"])
       s.add_runtime_dependency(%q<thor>, [">= 0"])
+      s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.7"])
@@ -59,6 +66,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
       s.add_dependency(%q<sequel>, ["~> 4.1.1"])
       s.add_dependency(%q<thor>, [">= 0"])
+      s.add_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<bundler>, ["~> 1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.7"])
@@ -68,6 +76,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
     s.add_dependency(%q<sequel>, ["~> 4.1.1"])
     s.add_dependency(%q<thor>, [">= 0"])
+    s.add_dependency(%q<activesupport>, [">= 3.0.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<bundler>, ["~> 1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.7"])
