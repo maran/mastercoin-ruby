@@ -3,6 +3,7 @@ module Mastercoin
     attr_accessor :transaction_type, :currency_id, :amount
 
     # Supply the amount in 'dacoinminster's
+    #77702fd6333eb5a67fa03b6fdb0fda04981bd671fd2a9175e2bee43340770940
     def initialize(options= {})
       self.transaction_type = Mastercoin::TRANSACTION_PURCHASE_BTC_TRADE
       self.currency_id = options[:currency_id]

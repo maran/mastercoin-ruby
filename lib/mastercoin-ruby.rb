@@ -22,8 +22,8 @@ module Mastercoin
     "10" => "Mark saving",
     "11" => "Mark compromised",
     TRANSACTION_SELL_FOR_BITCOIN => "Currency trade offer bitcoins",
-    TRANSACTION_PURCHASE_BTC_TRADE => "Currency trade offer master-coin derived",
-    "22" => "Currency trade offer accept",
+    "21" => "Currency trade offer master-coin derived",
+    TRANSACTION_PURCHASE_BTC_TRADE  => "Currency trade offer accept",
     "30" => "Register data-stream",
     "40" => "Bet offer",
     "100" => "Create child currency"
