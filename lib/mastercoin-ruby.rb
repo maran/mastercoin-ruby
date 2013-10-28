@@ -9,6 +9,7 @@ module Mastercoin
   autoload :ExodusPayment, 'mastercoin-ruby/exodus_payment'
   autoload :Transaction, 'mastercoin-ruby/transaction'
   autoload :Message, 'mastercoin-ruby/message'
+  autoload :PurchaseOffer, 'mastercoin-ruby/purchase_offer'
   autoload :Util, 'mastercoin-ruby/util'
   autoload :BitcoinWrapper, 'mastercoin-ruby/bitcoin_wrapper'
 
