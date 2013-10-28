@@ -17,8 +17,10 @@ module Mastercoin
     
       if transaction_type == Mastercoin::TRANSACTION_SELL_FOR_BITCOIN
         Mastercoin::SellingOffer.decode_from_compressed_public_key([result[0][0], result[1][0]], xor_target)
+      elsif transaction_type.to_s == Mastercoin::TRANSACTION_PURCHASE_BTC_TRADE
+        Mastercoin::PurchaseOffer.decode_from_compressed_public_key(result[0][0], xor_target)
       elsif transaction_type.to_s == Mastercoin::TRANSACTION_SIMPLE_SEND.to_s
-        Mastercoin::SimpleSend.decode_from_compressed_public_key(keys, xor_target)
+        Mastercoin::SimpleSend.decode_from_compressed_public_key(result[0][0], xor_target)
       end
     end
 

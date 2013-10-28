@@ -4,7 +4,7 @@ module Mastercoin
 
     # Supply the amount in 'dacoinminster's
     def initialize(options= {})
-      self.transaction_type = Mastercoin::TRANSACTION_SIMPLE_SEND
+      self.transaction_type = Mastercoin::TRANSACTION_PURCHASE_BTC_TRADE
       self.currency_id = options[:currency_id]
       self.amount = options[:amount]
     end
