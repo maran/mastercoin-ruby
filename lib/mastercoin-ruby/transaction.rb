@@ -7,6 +7,7 @@ module Mastercoin
     attr_accessor :data_addresses, :rejected_outputs, :target_address, :multisig, :sending_address
 
     attr_accessor :data
+    attr_accessor :source_address
 
     def initialize(tx_hash)
       @store = Mastercoin.storage
