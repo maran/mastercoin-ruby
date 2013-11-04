@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "mastercoin-ruby"
-  s.version = "0.0.5"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maran"]
-  s.date = "2013-10-28"
+  s.date = "2013-11-04"
   s.description = "Basic implementation of the Mastercoin protocol."
   s.email = "maran.hidskes@gmail.com"
   s.executables = ["console", "exodus_payment", "mastercoin_transaction", "simple_send", "wallet.rb"]
@@ -36,11 +36,13 @@ Gem::Specification.new do |s|
     "lib/mastercoin-ruby/bitcoin_wrapper.rb",
     "lib/mastercoin-ruby/exodus_payment.rb",
     "lib/mastercoin-ruby/message.rb",
+    "lib/mastercoin-ruby/purchase_offer.rb",
     "lib/mastercoin-ruby/selling_offer.rb",
     "lib/mastercoin-ruby/simple_send.rb",
     "lib/mastercoin-ruby/transaction.rb",
     "lib/mastercoin-ruby/util.rb",
     "mastercoin-ruby.gemspec",
+    "spec/purchase_offer_spec.rb",
     "spec/selling_offer_spec.rb",
     "spec/simple_send_spec.rb"
   ]
@@ -56,7 +58,7 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
       s.add_runtime_dependency(%q<sequel>, ["~> 4.1.1"])
-      s.add_runtime_dependency(%q<thor>, [">= 0"])
+      s.add_runtime_dependency(%q<thor>, [">= 0.14.6"])
       s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0"])
@@ -65,7 +67,7 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
       s.add_dependency(%q<sequel>, ["~> 4.1.1"])
-      s.add_dependency(%q<thor>, [">= 0"])
+      s.add_dependency(%q<thor>, [">= 0.14.6"])
       s.add_dependency(%q<activesupport>, [">= 3.0.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<bundler>, ["~> 1.0"])
@@ -75,7 +77,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
     s.add_dependency(%q<sequel>, ["~> 4.1.1"])
-    s.add_dependency(%q<thor>, [">= 0"])
+    s.add_dependency(%q<thor>, [">= 0.14.6"])
     s.add_dependency(%q<activesupport>, [">= 3.0.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<bundler>, ["~> 1.0"])
