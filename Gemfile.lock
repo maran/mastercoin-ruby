@@ -84,4 +84,4 @@ DEPENDENCIES
   rdoc (~> 3.12)
   rspec
   sequel (~> 4.1.1)
-  thor
+  thor (>= 0.14.6)

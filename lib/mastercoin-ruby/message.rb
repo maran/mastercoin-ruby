@@ -13,12 +13,19 @@ module Mastercoin
 
     def self.probe_and_read(keys, xor_target)
       result = Message.probe(keys, xor_target)
-      transaction_type = (result[0][1] + result[1][1])[2..9].to_i(16)
+
+      if result.length > 1
+        transaction_type = (result[0][1] + result[1][1])[2..9].to_i(16)
+      else
+        transaction_type = result[0][1][2..9].to_i(16)
+      end
     
       if transaction_type == Mastercoin::TRANSACTION_SELL_FOR_BITCOIN
         Mastercoin::SellingOffer.decode_from_compressed_public_key([result[0][0], result[1][0]], xor_target)
+      elsif transaction_type.to_s == Mastercoin::TRANSACTION_PURCHASE_BTC_TRADE.to_i.to_s
+       Mastercoin::PurchaseOffer.decode_from_compressed_public_key(result[0][0], xor_target)
       elsif transaction_type.to_s == Mastercoin::TRANSACTION_SIMPLE_SEND.to_s
-        Mastercoin::SimpleSend.decode_from_compressed_public_key(keys, xor_target)
+        Mastercoin::SimpleSend.decode_from_compressed_public_key(result[0][0], xor_target)
       end
     end
 

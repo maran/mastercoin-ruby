@@ -12,7 +12,8 @@ module Mastercoin
       def lookup(hash) 
         puts "Looking up tx with hash #{hash}"
         Mastercoin.set_storage(options[:storage])
-        puts Mastercoin::Transaction.new(hash)
+        a = Mastercoin::Transaction.new(hash)
+        puts a.to_s
       end
     end
   end

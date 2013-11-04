@@ -9,11 +9,13 @@ module Mastercoin
   autoload :ExodusPayment, 'mastercoin-ruby/exodus_payment'
   autoload :Transaction, 'mastercoin-ruby/transaction'
   autoload :Message, 'mastercoin-ruby/message'
+  autoload :PurchaseOffer, 'mastercoin-ruby/purchase_offer'
   autoload :Util, 'mastercoin-ruby/util'
   autoload :BitcoinWrapper, 'mastercoin-ruby/bitcoin_wrapper'
 
   TRANSACTION_SIMPLE_SEND = "0"
   TRANSACTION_SELL_FOR_BITCOIN = 20
+  TRANSACTION_PURCHASE_BTC_TRADE = 22
 
   TRANSACTION_TYPES = {
     TRANSACTION_SIMPLE_SEND => "Simple transfer",
@@ -21,7 +23,7 @@ module Mastercoin
     "11" => "Mark compromised",
     TRANSACTION_SELL_FOR_BITCOIN => "Currency trade offer bitcoins",
     "21" => "Currency trade offer master-coin derived",
-    "22" => "Currency trade offer accept",
+    TRANSACTION_PURCHASE_BTC_TRADE  => "Currency trade offer accept",
     "30" => "Register data-stream",
     "40" => "Bet offer",
     "100" => "Create child currency"
