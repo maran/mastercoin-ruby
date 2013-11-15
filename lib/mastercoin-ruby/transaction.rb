@@ -82,7 +82,7 @@ module Mastercoin
     end
 
     def to_s
-      self.data.explain
+      self.data.explain(self.sending_address)
     end
   end
 end

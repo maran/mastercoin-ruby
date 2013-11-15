@@ -76,6 +76,10 @@ module Mastercoin
       result
     end
 
+    def explain(sending_address= nil)
+      puts "Not implemented"
+    end
+
 
     def mangle_key_until_valid(key)
       key[64..66] = Random.rand(256).to_s(16).rjust(2,"0")
