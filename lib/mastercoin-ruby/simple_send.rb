@@ -55,8 +55,8 @@ module Mastercoin
       Mastercoin::TRANSACTION_TYPES.keys.include?(self.transaction_type.to_i.to_s) && Mastercoin::CURRENCY_IDS.keys.include?(self.currency_id.to_s)
     end
 
-    def explain
-      "SimpleSend transaction for %.8f #{self.currency_id_text}." % (self.amount / 1e8)
+    def explain(sending_address = nil, target_address =nil)
+      "SimpleSend transaction from #{sending_address} for %.8f #{self.currency_id_text} to #{self.receiving_address || target_address}." % (self.amount / 1e8)
     end
 
     def currency_id_text
