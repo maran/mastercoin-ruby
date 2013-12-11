@@ -35,13 +35,15 @@ module Mastercoin
         self.multisig = false
       end
 
-      if multisig
-        self.btc_tx.outputs.each do |output|
-          if output.get_address == Mastercoin::EXODUS_ADDRESS
-            exodus_value = output.value
-          end
-        end
+      # This should probably be next up for refactor, smelling code creep!
 
+      self.btc_tx.outputs.each do |output|
+        if output.get_address == Mastercoin::EXODUS_ADDRESS
+          exodus_value = output.value
+        end
+      end
+
+      if multisig
         self.btc_tx.outputs.each do |output|
           if output.script.is_multisig?
             keys = output.script.get_multisig_pubkeys.collect{|x| x.unpack("H*")[0]}
@@ -69,6 +71,19 @@ module Mastercoin
             self.target_address = address
           end
         end
+
+        unless self.target_address
+          # Find data outputs and brute force receiver
+          found = self.btc_tx.outputs.find_all{|x| x.value == exodus_value}.reject do |output|
+            output.get_address == Mastercoin::EXODUS_ADDRESS || Mastercoin::SimpleSend.decode_from_address(output.get_address).looks_like_mastercoin? # This looks like a data packet
+          end
+
+          if found.length == 1
+            self.target_address = found.first.get_address
+          else
+            puts "Could not find target address"
+          end
+        end
       end
       raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.") unless self.data
     end
@@ -82,7 +97,7 @@ module Mastercoin
     end
 
     def to_s
-      self.data.explain(self.sending_address)
+      self.data.explain(self.sending_address, self.target_address)
     end
   end
 end
