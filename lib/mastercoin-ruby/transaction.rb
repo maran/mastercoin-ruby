@@ -55,26 +55,31 @@ module Mastercoin
           end
         end
       else
+        exodus_size_outputs = self.btc_tx.outputs.find_all{|x| x.value == exodus_value}
         self.btc_tx.outputs.each do |output|
           if output.get_address == Mastercoin::EXODUS_ADDRESS
             # Do nothing yet; this is simply the exodus address
           elsif Mastercoin::SimpleSend.decode_from_address(output.get_address).looks_like_mastercoin? # This looks like a data packet
+            Mastercoin.log.debug "Found data for address #{output.get_address}"
             self.data = Mastercoin::SimpleSend.decode_from_address(output.get_address)
           end
         end
 
-        self.btc_tx.outputs.each do |output|
+        Mastercoin.log.debug "Looking for data sequence #{self.data.sequence} +1 == #{self.data.sequence.to_i + 1}"
+
+        exodus_size_outputs.each do |output|
           address = output.get_address
           sequence = Mastercoin::Util.get_sequence(address)
+          Mastercoin.log.debug "Sequence: #{sequence} for #{address}"
 
-          if self.data.sequence.to_s == sequence.to_s
+          if (self.data.sequence.to_i + 1).to_s  == sequence.to_s
             self.target_address = address
           end
         end
 
         unless self.target_address
           # Find data outputs and brute force receiver
-          found = self.btc_tx.outputs.find_all{|x| x.value == exodus_value}.reject do |output|
+          found = exodus_size_outputs.reject do |output|
             output.get_address == Mastercoin::EXODUS_ADDRESS || Mastercoin::SimpleSend.decode_from_address(output.get_address).looks_like_mastercoin? # This looks like a data packet
           end
 

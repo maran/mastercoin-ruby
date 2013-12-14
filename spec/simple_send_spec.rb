@@ -25,8 +25,13 @@ describe Mastercoin::SimpleSend do
       simple_send.transaction_type.should eq(0)
     end
 
+    it "Should encode proper sequences" do
+      address = @simple_send.encode_to_address
+      Mastercoin::Util.get_sequence(@simple_send.receiving_address).should eq(@simple_send.sequence + 1)
+    end
+
     it "Should be backwards compatible with sequences" do
-      Mastercoin::SimpleSend.new.get_sequence("1CcJFxoEW5PUwesMVxGrq6kAPJ1TJsSVqq").should eq(126)
+      Mastercoin::SimpleSend.new.get_sequence("1CcJFxoEW5PUwesMVxGrq6kAPJ1TJsSVqq").should eq(127)
     end
   end
 

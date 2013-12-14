@@ -32,7 +32,8 @@ module Mastercoin
     end
 
     def encode_to_address
-      raw = (self.get_sequence.to_i.to_s(16).rjust(2, "0") + self.transaction_type.to_i.to_s(16).rjust(8,"0") + self.currency_id.to_i.to_s(16).rjust(8, "0") + self.amount.to_i.to_s(16).rjust(16, "0") + "000000")
+      self.sequence = self.get_sequence(self.receiving_address, true).to_i
+      raw = (self.sequence.to_s(16).rjust(2, "0") + self.transaction_type.to_i.to_s(16).rjust(8,"0") + self.currency_id.to_i.to_s(16).rjust(8, "0") + self.amount.to_i.to_s(16).rjust(16, "0") + "000000")
       Bitcoin.hash160_to_address(raw)
     end
 
@@ -46,13 +47,13 @@ module Mastercoin
       return simple_send
     end
 
-    def get_sequence(bitcoin_address = nil)
+    def get_sequence(bitcoin_address = nil, encoding = false)
       bitcoin_address ||= self.receiving_address
-      Mastercoin::Util.get_sequence(bitcoin_address)
+      Mastercoin::Util.get_sequence(bitcoin_address, encoding)
     end
 
     def looks_like_mastercoin?
-      Mastercoin::TRANSACTION_TYPES.keys.include?(self.transaction_type.to_i.to_s) && Mastercoin::CURRENCY_IDS.keys.include?(self.currency_id.to_s)
+      Mastercoin::TRANSACTION_TYPES.keys.include?(self.transaction_type.to_i.to_s) && Mastercoin::CURRENCY_IDS.keys.include?(self.currency_id.to_s) && (self.amount / 1e8) < (563061 / 2)
     end
 
     def explain(sending_address = nil, target_address =nil)

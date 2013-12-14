@@ -48,7 +48,7 @@ module Mastercoin
     return @@storage
   end
 
-  def self.init_logger(level = Logger::INFO)
+  def self.init_logger(level = Logger::DEBUG)
     @@log ||= Logger.new(STDOUT)
     @@log.level = level
     @@log
