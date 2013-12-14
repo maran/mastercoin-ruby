@@ -50,7 +50,7 @@ module Mastercoin
       Mastercoin::Util.get_sequence(bitcoin_address)
     end
 
-    def explain(sending_address= nil)
+    def explain(sending_address= nil, address=nil)
       "Purchase Offer transaction for %.8f #{self.currency_id_text} from #{sending_address}." % (self.amount / 1e8)
     end
 
