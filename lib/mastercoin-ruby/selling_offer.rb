@@ -39,7 +39,7 @@ module Mastercoin
       end
     end
 
-    def explain(sending_address)
+    def explain(sending_address, address=nil)
       "Selling Offer from #{sending_address} of #{(self.amount / 1e8).to_f} #{Mastercoin::CURRENCY_IDS[self.currency_id.to_s]} for #{(self.bitcoin_amount / 1e8).to_f} Bitcoins. Time limit #{self.time_limit}. BTC Fee #{self.transaction_fee}"
     end
   end
