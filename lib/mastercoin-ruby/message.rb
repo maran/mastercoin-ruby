@@ -19,12 +19,16 @@ module Mastercoin
       else
         transaction_type = result[0][1][2..9].to_i(16)
       end
+      Mastercoin.log.debug("Transaction type: #{transaction_type}")
     
       if transaction_type == Mastercoin::TRANSACTION_SELL_FOR_BITCOIN
+        Mastercoin.log.debug("Selling offer found")
         Mastercoin::SellingOffer.decode_from_compressed_public_key([result[0][0], result[1][0]], xor_target)
       elsif transaction_type.to_s == Mastercoin::TRANSACTION_PURCHASE_BTC_TRADE.to_i.to_s
+        Mastercoin.log.debug("Purchase offer found")
        Mastercoin::PurchaseOffer.decode_from_compressed_public_key(result[0][0], xor_target)
       elsif transaction_type.to_s == Mastercoin::TRANSACTION_SIMPLE_SEND.to_s
+        Mastercoin.log.debug("Simple send found")
         Mastercoin::SimpleSend.decode_from_compressed_public_key(result[0][0], xor_target)
       end
     end

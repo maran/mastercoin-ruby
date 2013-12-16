@@ -56,6 +56,10 @@ module Mastercoin
         end
       else
         exodus_size_outputs = self.btc_tx.outputs.find_all{|x| x.value == exodus_value}
+        if exodus_size_outputs.length < 3
+          raise NoMastercoinTransactionException.new("Not enough Exodus outputs found, we need at least 3 outputs with the value specified to Exodus, but got #{exodus_size_outputs.length}")
+        end
+
         self.btc_tx.outputs.each do |output|
           if output.get_address == Mastercoin::EXODUS_ADDRESS
             # Do nothing yet; this is simply the exodus address
@@ -74,10 +78,12 @@ module Mastercoin
 
           if (self.data.sequence.to_i + 1).to_s  == sequence.to_s
             self.target_address = address
+            Mastercoin.log.debug "Target address found #{self.target_address}"
           end
         end
 
         unless self.target_address
+          Mastercoin.log.debug "Target address not found attempting peek & decode."
           # Find data outputs and brute force receiver
           found = exodus_size_outputs.reject do |output|
             output.get_address == Mastercoin::EXODUS_ADDRESS || Mastercoin::SimpleSend.decode_from_address(output.get_address).looks_like_mastercoin? # This looks like a data packet
@@ -86,7 +92,7 @@ module Mastercoin
           if found.length == 1
             self.target_address = found.first.get_address
           else
-            puts "Could not find target address"
+            raise NoMastercoinTransactionException.new("Could not find a recipient address.") unless self.data
           end
         end
       end
