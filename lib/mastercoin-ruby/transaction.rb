@@ -56,9 +56,6 @@ module Mastercoin
         end
       else
         exodus_size_outputs = self.btc_tx.outputs.find_all{|x| x.value == exodus_value}
-        if exodus_size_outputs.length < 3
-          raise NoMastercoinTransactionException.new("Not enough Exodus outputs found, we need at least 3 outputs with the value specified to Exodus, but got #{exodus_size_outputs.length}")
-        end
 
         self.btc_tx.outputs.each do |output|
           if output.get_address == Mastercoin::EXODUS_ADDRESS
