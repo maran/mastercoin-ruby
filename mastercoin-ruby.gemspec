@@ -5,14 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = "mastercoin-ruby"
-  s.version = "0.2.4"
+  s.version = "0.2.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maran"]
-  s.date = "2013-12-16"
+  s.date = "2013-12-30"
   s.description = "Basic implementation of the Mastercoin protocol."
   s.email = "maran.hidskes@gmail.com"
-  s.executables = ["console", "exodus_payment", "mastercoin_transaction", "simple_send", "wallet.rb"]
+  s.executables = ["exodus_payment", "mastercoin-console", "mastercoin_transaction", "simple_send", "wallet.rb"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md",
@@ -27,8 +27,8 @@ Gem::Specification.new do |s|
     "Rakefile",
     "TODO",
     "VERSION",
-    "bin/console",
     "bin/exodus_payment",
+    "bin/mastercoin-console",
     "bin/mastercoin_transaction",
     "bin/simple_send",
     "bin/wallet.rb",
