@@ -62,6 +62,7 @@ module Mastercoin
             # Do nothing yet; this is simply the exodus address
           elsif Mastercoin::SimpleSend.decode_from_address(output.get_address).looks_like_mastercoin? # This looks like a data packet
             Mastercoin.log.debug "Found data for address #{output.get_address}"
+            raise NoMastercoinTransactionException.new("More then one data-addresses found, invalidating.") if self.data.present?
             self.data = Mastercoin::SimpleSend.decode_from_address(output.get_address)
           end
         end
@@ -80,19 +81,32 @@ module Mastercoin
         end
 
         unless self.target_address
-          Mastercoin.log.debug "Target address not found attempting peek & decode."
+          Mastercoin.log.debug "Target address not found attempting 'peek & decode' Level 1, checking exodus-sized outputs."
           # Find data outputs and brute force receiver
           found = exodus_size_outputs.reject do |output|
             output.get_address == Mastercoin::EXODUS_ADDRESS || Mastercoin::SimpleSend.decode_from_address(output.get_address).looks_like_mastercoin? # This looks like a data packet
           end
 
           if found.length == 1
+            Mastercoin.log.debug "Only one possible target left; found target address."
             self.target_address = found.first.get_address
           else
-            raise NoMastercoinTransactionException.new("Could not find a recipient address.") unless self.data
+            Mastercoin.log.debug "Target address not found attempting 'peek & decode' Level 2, checking all-non exodus-sized outputs."
+
+            self.btc_tx.outputs.each do |output|
+              address = output.get_address
+              sequence = Mastercoin::Util.get_sequence(address)
+              Mastercoin.log.debug "Sequence: #{sequence} for #{address}"
+
+              if (self.data.sequence.to_i + 1).to_s  == sequence.to_s
+                self.target_address = address
+                Mastercoin.log.debug "Target address found #{self.target_address}"
+              end
+            end
           end
         end
       end
+      raise NoMastercoinTransactionException.new("Could not find valid looking target address, invalid") unless self.target_address
       raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.") unless self.data
     end
 

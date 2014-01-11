@@ -13,7 +13,7 @@ module Mastercoin
 
       desc "decode_from_address <address>", "Decodes a simple send based on a address"
       def decode_from_address(address)
-        puts Mastercoin::SimpleSend.decode_from_address(address).to_s
+        puts Mastercoin::SimpleSend.decode_from_address(address).explain
       end
       
       desc "encode_to_public_key <options>", "Encodes the parameters into a public key"
