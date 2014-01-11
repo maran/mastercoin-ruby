@@ -35,7 +35,7 @@ module Mastercoin
   }
 
   EXODUS_ADDRESS = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P"
-  END_TIME = Time.new(2013,9,01,00,00,00, "+00:00")
+  END_TIME = 1377993874
   END_BLOCK = 255365
 
   def self.set_storage(storage_string)
