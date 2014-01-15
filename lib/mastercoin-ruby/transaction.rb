@@ -13,6 +13,7 @@ module Mastercoin
       @store = Mastercoin.storage
       self.data_addresses = []
       self.rejected_outputs = [] 
+      self.target_address = nil
       self.btc_tx = @store.get_tx(tx_hash)
       self.sending_address = btc_tx.inputs.first.get_prev_out.get_address
       self.source_address = Mastercoin::ExodusPayment.highest_output_for_tx(self.btc_tx)
@@ -106,7 +107,7 @@ module Mastercoin
           end
         end
       end
-      raise NoMastercoinTransactionException.new("Could not find valid looking target address, invalid") unless self.target_address
+      raise NoMastercoinTransactionException.new("Could not find valid looking target address, invalid") if self.target_address.nil? && !self.data.class == SellingOffer
       raise NoMastercoinTransactionException.new("Could not find a valid looking data-address, invalid.") unless self.data
     end
 
