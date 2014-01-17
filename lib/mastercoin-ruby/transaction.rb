@@ -70,7 +70,7 @@ module Mastercoin
 
         Mastercoin.log.debug "Looking for data sequence #{self.data.sequence} +1 == #{self.data.sequence.to_i + 1}"
 
-        exodus_size_outputs.each do |output|
+        exodus_size_outputs.reject{|x| x.get_address == Mastercoin::EXODUS_ADDRESS}.each do |output| # Exclude Exodus output
           address = output.get_address
           sequence = Mastercoin::Util.get_sequence(address)
           Mastercoin.log.debug "Sequence: #{sequence} for #{address}"
